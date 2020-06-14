@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200604110920_PostOfficeUpdate.cs" />
+    <Compile Remove="Migrations\20200604110920_PostOfficeUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20200604111009_PostOfficeUpdate.cs" />
+    <Compile Remove="Migrations\20200604111009_PostOfficeUpdate.Designer.cs" />
+    <Compile Remove="Migrations\20200604111440_PostOfficeCodeConstraint.cs" />
+    <Compile Remove="Migrations\20200604111440_PostOfficeCodeConstraint.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PostSystem.Models\PostSystem.Models.csproj" />
+  </ItemGroup>
+
+</Project>

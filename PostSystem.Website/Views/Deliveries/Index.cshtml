@@ -1,0 +1,84 @@
+﻿@model IEnumerable<PostSystem.Website.ViewModels.DeliveryViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Mail_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.From_Office_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.To_Office_Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Details)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Express_Delivery)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created_On)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Updated_On)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mail_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.From_Office_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To_Office_Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Details)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Express_Delivery)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created_On)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Updated_On)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

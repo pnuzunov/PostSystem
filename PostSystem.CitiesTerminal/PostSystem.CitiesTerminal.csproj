@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PostSystem.Business\PostSystem.Business.csproj" />
+    <ProjectReference Include="..\PostSystem.WebAPI\PostSystem.WebAPI.csproj" />
+  </ItemGroup>
+
+</Project>

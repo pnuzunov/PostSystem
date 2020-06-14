@@ -1,0 +1,64 @@
+﻿@model PostSystem.Website.ViewModels.PostOfficeViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>PostOfficeViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="City_Id" class="control-label"></label>
+                @Html.DropDownListFor(office => office.City_Id, ViewBag.Cities as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                <span asp-validation-for="City_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Office_Post_Code" class="control-label"></label>
+                <input asp-for="Office_Post_Code" class="form-control" />
+                <span asp-validation-for="Office_Post_Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Desk_Count" class="control-label"></label>
+                <input asp-for="Desk_Count" class="form-control" />
+                <span asp-validation-for="Desk_Count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" hidden/>
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Created_On" class="control-label"></label>
+                <input asp-for="Created_On" class="form-control" hidden/>
+                <span asp-validation-for="Created_On" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Updated_On" class="control-label"></label>
+                <input asp-for="Updated_On" class="form-control" hidden/>
+                <span asp-validation-for="Updated_On" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,58 @@
+﻿@model PostSystem.Website.ViewModels.PostOfficeViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>PostOfficeViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="City_Id" class="control-label"></label>
+                @Html.DropDownListFor(office => office.City_Id, ViewBag.Cities as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control"})
+                <span asp-validation-for="City_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Office_Post_Code" class="control-label"></label>
+                <input asp-for="Office_Post_Code" class="form-control" />
+                <span asp-validation-for="Office_Post_Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Desk_Count" class="control-label"></label>
+                <input asp-for="Desk_Count" class="form-control" />
+                <span asp-validation-for="Desk_Count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                @Html.HiddenFor(office => office.Id)
+            </div>
+            <div class="form-group">
+                @Html.HiddenFor(office => office.Created_On)
+            </div>
+            <div class="form-group">
+                @Html.HiddenFor(office => office.Updated_On)
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
