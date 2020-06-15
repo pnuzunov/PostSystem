@@ -1,8 +1,14 @@
 ﻿@{
+    PostSystem.Website.ViewModels.UserViewModel loggedUser = null;
     ViewData["Title"] = "Начало";
+    if (TempData["LoggedUser"] != null)
+    {
+        loggedUser = Newtonsoft.Json.JsonConvert.DeserializeObject<PostSystem.Website.ViewModels.UserViewModel>(TempData["LoggedUser"].ToString());
+        TempData["LoggedUser"] = Newtonsoft.Json.JsonConvert.SerializeObject(loggedUser);
+    }
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Welcome@(loggedUser == null ? "" : $", {loggedUser.Username}")</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

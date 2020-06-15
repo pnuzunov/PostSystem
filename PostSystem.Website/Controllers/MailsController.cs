@@ -13,6 +13,7 @@ namespace PostSystem.Website.Controllers
 {
     public class MailsController : BaseController<MailViewModel>
     {
+
         public override async Task<ActionResult> Create()
         {
             return View();
@@ -22,6 +23,8 @@ namespace PostSystem.Website.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = await GetAccessToken();
+                client.DefaultRequestHeaders.Add(WebsiteHelper.AUTHORIZATION_HEADER_NAME, token);
 
                 HttpResponseMessage response = await client.GetAsync($"{Uri}/{id}");
 

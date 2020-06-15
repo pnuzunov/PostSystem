@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PostSystem.Business.DTO
+namespace PostSystem.Models
 {
-    public class UserDto : BaseDto
+    class User : BaseEntity
     {
         public string Username { get; set; }
         public string Password { get; set; }

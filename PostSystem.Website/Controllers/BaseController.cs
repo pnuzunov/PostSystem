@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PostSystem.Website.ViewModels;
@@ -20,11 +21,13 @@ namespace PostSystem.Website.Controllers
             this.Uri = uri;
         }
 
-        public async Task<ActionResult> Index()
+        public virtual async Task<ActionResult> Index()
         {
             using (var client = new HttpClient())
             {
                 var token = await GetAccessToken();
+                if (token == null)
+                    return RedirectToAction(nameof(HomeController.Error), "Home");
                 client.DefaultRequestHeaders.Add(WebsiteHelper.AUTHORIZATION_HEADER_NAME, token);
 
                 HttpResponseMessage response = await client.GetAsync(Uri);
@@ -42,7 +45,7 @@ namespace PostSystem.Website.Controllers
             }
         }
 
-        public async Task<ActionResult> Details(int id)
+        public virtual async Task<ActionResult> Details(int id)
         {
             using (var client = new HttpClient())
             {
@@ -65,7 +68,7 @@ namespace PostSystem.Website.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(TViewModel viewModel)
+        public virtual async Task<ActionResult> Create(TViewModel viewModel)
         {
             try
             {
@@ -94,7 +97,7 @@ namespace PostSystem.Website.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, TViewModel viewModel)
+        public virtual async Task<ActionResult> Edit(int id, TViewModel viewModel)
         {
             viewModel.Id = id;
 
@@ -124,7 +127,7 @@ namespace PostSystem.Website.Controllers
 
         [HttpGet]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id)
+        public virtual async Task<ActionResult> Delete(int id)
         {
             using (var client = new HttpClient())
             {
@@ -144,7 +147,7 @@ namespace PostSystem.Website.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public virtual async Task<ActionResult> DeleteConfirmed(int id)
         {
             try
             {
@@ -167,13 +170,23 @@ namespace PostSystem.Website.Controllers
             }
         }
 
-        private async Task<string> GetAccessToken()
+        protected async Task<string> GetAccessToken()
         {
             using (var client = new HttpClient())
             {
                 var serializedContent = JsonConvert.SerializeObject(new { Username = "test1Username", Password = "test1Password" });
                 var stringContent = new StringContent(serializedContent, Encoding.UTF8, WebsiteHelper.JSON_MEDIA_TYPE);
 
+                /*
+                string username = HttpContext.Session.GetString("Username");
+                string password = HttpContext.Session.GetString("Password");
+
+                if (username == null || password == null)
+                    return null;
+
+                var serializedContent = JsonConvert.SerializeObject(new { Username = username, Password = password });
+                var stringContent = new StringContent(serializedContent, Encoding.UTF8, WebsiteHelper.JSON_MEDIA_TYPE);
+                */
                 HttpResponseMessage response = await client.PostAsync(WebsiteHelper.tokenUri, stringContent);
 
                 if (!response.IsSuccessStatusCode)

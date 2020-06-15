@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
@@ -11,12 +12,13 @@ using PostSystem.Business.Services;
 namespace PostSystem.WebAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class PostSystemController<TService, TDto> : ControllerBase
         where TService : IService<TDto>, new()
         where TDto : BaseDto, new()
     {
-        protected readonly IService<TDto> service;
+        protected readonly TService service;
 
         public PostSystemController()
         {
