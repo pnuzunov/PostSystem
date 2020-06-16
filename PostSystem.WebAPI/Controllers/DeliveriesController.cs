@@ -15,10 +15,18 @@ namespace PostSystem.WebAPI.Controllers
     {
         public DeliveriesController() : base() { }
 
+        /*
         public IEnumerable<DeliveryDto> GetAll([FromQuery] int fromOfficeId)
         {
             DeliveryService deliveryService = service as DeliveryService;
             return deliveryService.GetAll(fromOfficeId).ToList();
+        }
+        */
+
+        public IEnumerable<DeliveryDto> GetAll([FromQuery] string details)
+        {
+            DeliveryService deliveryService = service as DeliveryService;
+            return deliveryService.GetAll(details).ToList();
         }
     }
 }

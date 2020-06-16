@@ -10,13 +10,13 @@ namespace PostSystem.Business.Services
 {
     public class PostOfficeService : IService<PostOfficeDto>
     {
-        public IEnumerable<PostOfficeDto> GetAll(string city = null)
+        public IEnumerable<PostOfficeDto> GetAll(int city = -1)
         {
             using (UnitOfWork unitOfWork = new UnitOfWork())
             {
-                var postOffices = city == null ?
+                var postOffices = city == -1 ?
                     unitOfWork.PostOfficeRepository.GetAll() :
-                    unitOfWork.PostOfficeRepository.GetAll(p => p.Office_City.City_Name == city);
+                    unitOfWork.PostOfficeRepository.GetAll(p => p.Office_City.Id == city);
 
                 return postOffices.Select(postOffice => GenerateDto(postOffice)).ToList();
             }

@@ -16,7 +16,7 @@ namespace PostSystem.WebAPI.Controllers
         public PostOfficesController() : base() { }
 
         [HttpGet]
-        public IEnumerable<PostOfficeDto> GetAll([FromQuery] string city)
+        public IEnumerable<PostOfficeDto> GetAll([FromQuery] int city)
         {
             PostOfficeService postOfficeService = service as PostOfficeService;
             return postOfficeService.GetAll(city).ToList();

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -28,7 +30,7 @@ namespace PostSystem.Website.Controllers
                 var token = await GetAccessToken();
                 if (token == null)
                     return RedirectToAction(nameof(HomeController.Error), "Home");
-                client.DefaultRequestHeaders.Add(WebsiteHelper.AUTHORIZATION_HEADER_NAME, token);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage response = await client.GetAsync(Uri);
 
@@ -49,6 +51,11 @@ namespace PostSystem.Website.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = await GetAccessToken();
+                if (token == null)
+                    return RedirectToAction(nameof(HomeController.Error), "Home");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync($"{Uri}/{id}");
 
                 if (!response.IsSuccessStatusCode)
@@ -74,6 +81,11 @@ namespace PostSystem.Website.Controllers
             {
                 using (var client = new HttpClient())
                 {
+                    var token = await GetAccessToken();
+                    if (token == null)
+                        return RedirectToAction(nameof(HomeController.Error), "Home");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                     var serializedContent = JsonConvert.SerializeObject(viewModel);
                     var stringContent = new StringContent(serializedContent, Encoding.UTF8, WebsiteHelper.JSON_MEDIA_TYPE);
 
@@ -105,6 +117,10 @@ namespace PostSystem.Website.Controllers
             {
                 using (var client = new HttpClient())
                 {
+                    var token = await GetAccessToken();
+                    if (token == null)
+                        return RedirectToAction(nameof(HomeController.Error), "Home");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                     var serializedContent = JsonConvert.SerializeObject(viewModel);
                     var stringContent = new StringContent(serializedContent, Encoding.UTF8, WebsiteHelper.JSON_MEDIA_TYPE);
@@ -131,6 +147,11 @@ namespace PostSystem.Website.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = await GetAccessToken();
+                if (token == null)
+                    return RedirectToAction(nameof(HomeController.Error), "Home");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage response = await client.GetAsync($"{Uri}/{id}");
 
                 if (!response.IsSuccessStatusCode)
@@ -153,6 +174,10 @@ namespace PostSystem.Website.Controllers
             {
                 using (var client = new HttpClient())
                 {
+                    var token = await GetAccessToken();
+                    if (token == null)
+                        return RedirectToAction(nameof(HomeController.Error), "Home");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                     HttpResponseMessage response = await client.DeleteAsync($"{Uri}/{id}");
 
@@ -174,10 +199,6 @@ namespace PostSystem.Website.Controllers
         {
             using (var client = new HttpClient())
             {
-                var serializedContent = JsonConvert.SerializeObject(new { Username = "test1Username", Password = "test1Password" });
-                var stringContent = new StringContent(serializedContent, Encoding.UTF8, WebsiteHelper.JSON_MEDIA_TYPE);
-
-                /*
                 string username = HttpContext.Session.GetString("Username");
                 string password = HttpContext.Session.GetString("Password");
 
@@ -186,7 +207,7 @@ namespace PostSystem.Website.Controllers
 
                 var serializedContent = JsonConvert.SerializeObject(new { Username = username, Password = password });
                 var stringContent = new StringContent(serializedContent, Encoding.UTF8, WebsiteHelper.JSON_MEDIA_TYPE);
-                */
+                
                 HttpResponseMessage response = await client.PostAsync(WebsiteHelper.tokenUri, stringContent);
 
                 if (!response.IsSuccessStatusCode)
@@ -194,7 +215,7 @@ namespace PostSystem.Website.Controllers
                     return null;
                 }
 
-                return $"Bearer {await response.Content.ReadAsStringAsync()}";
+                return await response.Content.ReadAsStringAsync();
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,6 +17,11 @@ namespace PostSystem.Website.Controllers
         {
             using (var httpClient = new HttpClient())
             {
+                var token = await GetAccessToken();
+                if (token == null)
+                    return Enumerable.Empty<SelectListItem>();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage mailsResponse = await httpClient.GetAsync(WebsiteHelper.mailsUri);
                 if (!mailsResponse.IsSuccessStatusCode)
                 {
@@ -31,6 +37,11 @@ namespace PostSystem.Website.Controllers
         {
             using (var httpClient = new HttpClient())
             {
+                var token = await GetAccessToken();
+                if (token == null)
+                    return Enumerable.Empty<SelectListItem>();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
                 HttpResponseMessage officesResponse = await httpClient.GetAsync(WebsiteHelper.postOfficesUri);
                 if (!officesResponse.IsSuccessStatusCode)
                 {
@@ -41,6 +52,32 @@ namespace PostSystem.Website.Controllers
                 return offices.Select(office => new SelectListItem($"{office.Office_City.City_Name}, {office.Address}", office.Id.ToString()));
             }
         }
+
+        [HttpGet, ActionName("Index")]
+        public async Task<ActionResult> GetAll([FromQuery] string details)
+        {
+            using (var client = new HttpClient())
+            {
+                var token = await GetAccessToken();
+                if (token == null)
+                    return RedirectToAction(nameof(HomeController.Error), "Home");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await client.GetAsync($"{Uri}?details={details}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(HomeController.Error), "Home");
+                }
+
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+
+                var responseData = JsonConvert.DeserializeObject<IEnumerable<DeliveryViewModel>>(jsonResponse);
+
+                return View(responseData);
+            }
+        }
+
 
         public override async Task<ActionResult> Create()
         {
@@ -54,6 +91,10 @@ namespace PostSystem.Website.Controllers
         {
             using (var client = new HttpClient())
             {
+                var token = await GetAccessToken();
+                if (token == null)
+                    return RedirectToAction(nameof(HomeController.Error), "Home");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage response = await client.GetAsync($"{Uri}/{id}");
 

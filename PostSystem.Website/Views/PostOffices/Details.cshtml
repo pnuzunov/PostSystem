@@ -15,7 +15,7 @@
             @Html.DisplayNameFor(model => model.City_Id)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City_Id)
+            @Html.DisplayFor(model => model.Office_City.City_Name)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Office_Post_Code)
@@ -34,12 +34,6 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Desk_Count)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Created_On)

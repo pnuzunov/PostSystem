@@ -10,6 +10,7 @@ namespace PostSystem.Business.Services
 {
     public class DeliveryService : IService<DeliveryDto>
     {
+        /*
         public IEnumerable<DeliveryDto> GetAll(int fromOfficeId = 0)
         {
             using (UnitOfWork unitOfWork = new UnitOfWork())
@@ -17,6 +18,18 @@ namespace PostSystem.Business.Services
                 var deliveries = fromOfficeId == 0 ?
                     unitOfWork.DeliveryRepository.GetAll() :
                     unitOfWork.DeliveryRepository.GetAll(m => m.From_Office_Id == fromOfficeId);
+
+                return deliveries.Select(delivery => GenerateDto(delivery)).ToList();
+            }
+        }
+        */
+        public IEnumerable<DeliveryDto> GetAll(string details = null)
+        {
+            using (UnitOfWork unitOfWork = new UnitOfWork())
+            {
+                var deliveries = details == null ?
+                    unitOfWork.DeliveryRepository.GetAll() :
+                    unitOfWork.DeliveryRepository.GetAll(m => m.Details.Contains(details));
 
                 return deliveries.Select(delivery => GenerateDto(delivery)).ToList();
             }
