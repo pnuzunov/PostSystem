@@ -12,7 +12,6 @@ namespace PostSystem.CitiesTerminal
     {
         static string input = "";
         static CityService cityService = new CityService();
-        static CitiesController citiesController = new CitiesController();
 
         static void Main(string[] args)
         {
@@ -126,7 +125,7 @@ namespace PostSystem.CitiesTerminal
             short postCode = GetPostCodeFromInput();
 
             Console.WriteLine("Searching database...");
-            CityDto cityDto = citiesController.GetAll(postCode).FirstOrDefault();
+            CityDto cityDto = cityService.GetAll(postCode).FirstOrDefault();
             if(cityDto != null)
             {
                 Console.WriteLine($"Match found : {cityDto.City_Name}, {cityDto.City_Post_Code}");

@@ -1,13 +1,12 @@
 ﻿@model PostSystem.Website.ViewModels.MailViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Подробности за колет";
 }
 
-<h1>Details</h1>
+<h1>Подробности</h1>
 
 <div>
-    <h4>MailViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -56,5 +55,5 @@
 </div>
 <div>
     @Html.ActionLink("Редактирай", "Edit", new { id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Обратно</a>
 </div>

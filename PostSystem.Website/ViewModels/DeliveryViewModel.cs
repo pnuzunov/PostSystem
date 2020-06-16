@@ -8,8 +8,8 @@ namespace PostSystem.Website.ViewModels
 {
     public class DeliveryViewModel : BaseViewModel
     {
-        [Required(ErrorMessage = "Моля въведете описание")]
-        [DisplayName("Пратка")]
+        [Required(ErrorMessage = "Моля въведете описание на колет")]
+        [DisplayName("Колет")]
         public int Mail_Id { get; set; }
         [Required(ErrorMessage = "Моля въведете пощенски офис")]
         [DisplayName("От пощенски офис")]
@@ -17,9 +17,9 @@ namespace PostSystem.Website.ViewModels
         [Required(ErrorMessage = "Моля въведете пощенски офис")]
         [DisplayName("Към пощенски офис")]
         public int To_Office_Id { get; set; }
-        [Required(ErrorMessage = "Моля въведете подробности")]
-        [StringLength(250, ErrorMessage = "Полето за подробностите трябва да е по-кратко от {1} символа. ")]
-        [DisplayName("Подробности")]
+        [Required(ErrorMessage = "Моля въведете описание")]
+        [StringLength(250, ErrorMessage = "Полето за описанието трябва да е по-кратко от {1} символа. ")]
+        [DisplayName("Описание")]
         public string Details { get; set; }
         [DisplayName("Такса")]
         public double Tax { get; set; }

@@ -1,14 +1,13 @@
 ﻿@model PostSystem.Website.ViewModels.PostOfficeViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Подробности за пощенски офис";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Подробности</h1>
 
 <div>
-    <h4>PostOfficeViewModel</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -51,5 +50,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new {  id = Model.Id }) |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Обратно</a>
 </div>
