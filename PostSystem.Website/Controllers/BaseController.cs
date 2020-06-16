@@ -74,7 +74,6 @@ namespace PostSystem.Website.Controllers
         public abstract Task<ActionResult> Create();
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Create(TViewModel viewModel)
         {
             try
@@ -108,7 +107,6 @@ namespace PostSystem.Website.Controllers
         public abstract Task<ActionResult> Edit(int id);
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Edit(int id, TViewModel viewModel)
         {
             viewModel.Id = id;
@@ -141,8 +139,6 @@ namespace PostSystem.Website.Controllers
             }
         }
 
-        [HttpGet]
-        [ValidateAntiForgeryToken]
         public virtual async Task<ActionResult> Delete(int id)
         {
             using (var client = new HttpClient())

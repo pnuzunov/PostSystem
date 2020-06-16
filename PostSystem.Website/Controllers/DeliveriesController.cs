@@ -13,8 +13,47 @@ namespace PostSystem.Website.Controllers
 {
     public class DeliveriesController : BaseController<DeliveryViewModel>
     {
-        private async Task<IEnumerable<SelectListItem>> GetMails()
+        private async Task<IEnumerable<MailViewModel>> GetAllMails(HttpClient httpClient)
         {
+
+            var token = await GetAccessToken();
+            if (token == null)
+                return Enumerable.Empty<MailViewModel>();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            
+            HttpResponseMessage mailsResponse = await httpClient.GetAsync(WebsiteHelper.mailsUri);
+            
+            if (!mailsResponse.IsSuccessStatusCode)
+            {
+                return Enumerable.Empty<MailViewModel>();
+            }
+            string mailsJsonResponse = await mailsResponse.Content.ReadAsStringAsync();
+            var mails = JsonConvert.DeserializeObject<IEnumerable<MailViewModel>>(mailsJsonResponse);
+            return mails;
+        }
+
+        private async Task<IEnumerable<DeliveryViewModel>> GetAllDeliveries(HttpClient httpClient)
+        {
+            var token = await GetAccessToken();
+            if (token == null)
+                return Enumerable.Empty<DeliveryViewModel>();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage deliveriesResponse = await httpClient.GetAsync(WebsiteHelper.deliveriesUri);
+
+            if (!deliveriesResponse.IsSuccessStatusCode)
+            {
+                return Enumerable.Empty<DeliveryViewModel>();
+            }
+            string deliveriesJsonResponse = await deliveriesResponse.Content.ReadAsStringAsync();
+            var deliveries = JsonConvert.DeserializeObject<IEnumerable<DeliveryViewModel>>(deliveriesJsonResponse);
+            return deliveries;
+        }
+
+
+        private async Task<IEnumerable<SelectListItem>> GetMails(int currentMailItem = 0)
+        {
+
             using (var httpClient = new HttpClient())
             {
                 var token = await GetAccessToken();
@@ -22,13 +61,35 @@ namespace PostSystem.Website.Controllers
                     return Enumerable.Empty<SelectListItem>();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
+                /*
                 HttpResponseMessage mailsResponse = await httpClient.GetAsync(WebsiteHelper.mailsUri);
+                HttpResponseMessage deliveriesResponse = await httpClient.GetAsync(Uri);
+
                 if (!mailsResponse.IsSuccessStatusCode)
                 {
                     return Enumerable.Empty<SelectListItem>();
                 }
                 string mailsJsonResponse = await mailsResponse.Content.ReadAsStringAsync();
-                var mails = JsonConvert.DeserializeObject<IEnumerable<MailViewModel>>(mailsJsonResponse);
+                string deliveriesJsonResponse = await deliveriesResponse.Content.ReadAsStringAsync();
+                */
+                var mails = await GetAllMails(httpClient);
+                var deliveries = await GetAllDeliveries(httpClient);
+
+                List<MailViewModel> remainingMails = new List<MailViewModel>();
+
+                foreach(var mail in mails)
+                {
+                    bool inUse = false;
+                    foreach (var delivery in deliveries)
+                    {
+                        if (mail.Id != currentMailItem && mail.Id == delivery.Delivery_Mail.Id)
+                            inUse = true;
+                    }
+                    if (!inUse)
+                        remainingMails.Add(mail);
+                }
+                mails = remainingMails;
+
                 return mails.Select(mail => new SelectListItem(mail.Description, mail.Id.ToString()));
             }
         }
@@ -106,8 +167,10 @@ namespace PostSystem.Website.Controllers
                 string jsonResponse = await response.Content.ReadAsStringAsync();
 
                 var responseData = JsonConvert.DeserializeObject<DeliveryViewModel>(jsonResponse);
+                var deliveries = await GetAllDeliveries(client);
+                DeliveryViewModel model = deliveries.Where(del => del.Id == id).FirstOrDefault();
 
-                ViewBag.Mails = await GetMails();
+                ViewBag.Mails = await GetMails(model.Delivery_Mail.Id);
                 ViewBag.PostOffices = await GetOffices();
 
                 return View(responseData);

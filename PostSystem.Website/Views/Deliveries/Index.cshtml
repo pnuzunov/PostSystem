@@ -13,6 +13,7 @@
 
 @using (Html.BeginForm("Index", "Deliveries", FormMethod.Get))
 {
+    @Html.Label("Описание: ")
     <input id="details" name="details" />
     <input type="submit" value="Търсене" />
 }
@@ -40,7 +41,7 @@
         {
             <tr>
                 <td>
-                    #@Html.DisplayFor(modelItem => item.Mail_Id)
+                    #@Html.DisplayFor(modelItem => item.Delivery_Mail.Id)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.From_Delivery_Office.Office_City.City_Name), @Html.DisplayFor(modelItem => item.From_Delivery_Office.Office_Post_Code)
