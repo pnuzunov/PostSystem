@@ -10,52 +10,52 @@
 <div>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Mail_Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mail_Id)
+        <dd class="col-sm-10">
+            #@Html.DisplayFor(model => model.Delivery_Mail.Id) - @Html.DisplayFor(model => model.Delivery_Mail.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.From_Office_Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.From_Office_Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.From_Delivery_Office.Office_City.City_Name) @Html.DisplayFor(model => model.From_Delivery_Office.Office_Post_Code), @Html.DisplayFor(model => model.From_Delivery_Office.Address)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.To_Office_Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.To_Office_Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.To_Delivery_Office.Office_City.City_Name) @Html.DisplayFor(model => model.To_Delivery_Office.Office_Post_Code), @Html.DisplayFor(model => model.To_Delivery_Office.Address)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Details)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Details)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Tax)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Tax)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Express_Delivery)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Express_Delivery)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Created_On)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Created_On)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Updated_On)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Updated_On)
         </dd>
     </dl>

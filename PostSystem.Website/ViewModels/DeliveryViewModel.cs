@@ -17,7 +17,6 @@ namespace PostSystem.Website.ViewModels
         [Required(ErrorMessage = "Моля въведете пощенски офис")]
         [DisplayName("Към пощенски офис")]
         public int To_Office_Id { get; set; }
-        [Required(ErrorMessage = "Моля въведете описание")]
         [StringLength(250, ErrorMessage = "Полето за описанието трябва да е по-кратко от {1} символа. ")]
         [DisplayName("Описание")]
         public string Details { get; set; }
