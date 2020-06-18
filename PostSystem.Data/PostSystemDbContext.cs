@@ -14,6 +14,7 @@ namespace PostSystem.Data
         public virtual DbSet<MailItem> Mails { get; set; }
         public virtual DbSet<PostOffice> PostOffices { get; set; }
         public virtual DbSet<Delivery> Deliveries { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

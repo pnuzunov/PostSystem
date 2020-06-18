@@ -12,6 +12,7 @@ namespace PostSystem.Data
         private BaseRepository<MailItem> mailRepository;
         private BaseRepository<PostOffice> postOfficeRepository;
         private BaseRepository<Delivery> deliveryRepository;
+        private BaseRepository<User> userRepository;
         private bool disposed = false;
 
         public UnitOfWork()
@@ -68,6 +69,19 @@ namespace PostSystem.Data
                 }
 
                 return deliveryRepository;
+            }
+        }
+
+        public BaseRepository<User> UserRepository
+        {
+            get
+            {
+                if (this.userRepository == null)
+                {
+                    this.userRepository = new BaseRepository<User>(dbContext);
+                }
+
+                return userRepository;
             }
         }
 

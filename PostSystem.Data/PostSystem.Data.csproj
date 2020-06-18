@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20200604111009_PostOfficeUpdate.Designer.cs" />
     <Compile Remove="Migrations\20200604111440_PostOfficeCodeConstraint.cs" />
     <Compile Remove="Migrations\20200604111440_PostOfficeCodeConstraint.Designer.cs" />
+    <Compile Remove="Migrations\20200618183215_Users_Support.cs" />
+    <Compile Remove="Migrations\20200618183215_Users_Support.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

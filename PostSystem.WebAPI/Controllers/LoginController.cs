@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using PostSystem.Business.DTO;
+using PostSystem.Data;
 
 namespace PostSystem.WebAPI.Controllers
 {
@@ -61,51 +62,25 @@ namespace PostSystem.WebAPI.Controllers
 
         private UserDto AuthenticateUser(UserDto user)
         {
-            var users = new UserDto[]
+            using(UnitOfWork unitOfWork = new UnitOfWork())
             {
-                new UserDto
+                var users = unitOfWork.UserRepository.GetAll();
+
+                var foundUser = users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
+
+                if (foundUser != null)
                 {
-                    Password = "test1Password",
-                    Username = "test1Username"
-                },
-                new UserDto
-                {
-                    Password = "test2Password",
-                    Username = "test2Username"
-                },
-                new UserDto
-                {
-                    Password = "test3Password",
-                    Username = "test3Username"
-                },
-                new UserDto
-                {
-                    Password = "test4Password",
-                    Username = "test4Username"
-                },
-                new UserDto
-                {
-                    Password = "test5Password",
-                    Username = "test5Username"
-                },
-                new UserDto
-                {
-                    Password = "test6Password",
-                    Username = "test6Username"
+                    return new UserDto
+                    {
+                        Username = foundUser.Username
+                    };
                 }
-            };
 
-            var foundUser = users.FirstOrDefault(u => u.Username == user.Username && u.Password == user.Password);
-
-            if (foundUser != null)
-            {
-                return new UserDto
-                {
-                    Username = foundUser.Username
-                };
+                return null;
             }
 
-            return null;
+
+
         }
     }
 }
