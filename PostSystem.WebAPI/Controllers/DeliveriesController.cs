@@ -23,10 +23,10 @@ namespace PostSystem.WebAPI.Controllers
         }
         */
 
-        public IEnumerable<DeliveryDto> GetAll([FromQuery] string details)
+        public IEnumerable<DeliveryDto> GetAll([FromQuery] int officeCode)
         {
             DeliveryService deliveryService = service as DeliveryService;
-            return deliveryService.GetAll(details).ToList();
+            return deliveryService.GetAll(officeCode).ToList();
         }
     }
 }

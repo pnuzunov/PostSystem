@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Доставки</h1>
+<h1>Пратки</h1>
 
 <p>
     <a asp-action="Create">Нова пратка</a>
@@ -13,8 +13,8 @@
 
 @using (Html.BeginForm("Index", "Deliveries", FormMethod.Get))
 {
-    @Html.Label("Описание: ")
-    <input id="details" name="details" />
+    @Html.Label("Пощенски код: ")
+    <input id="officeCode" name="officeCode" />
     <input type="submit" value="Търсене" />
 }
 

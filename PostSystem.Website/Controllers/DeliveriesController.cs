@@ -61,18 +61,6 @@ namespace PostSystem.Website.Controllers
                 if (token == null)
                     return Enumerable.Empty<SelectListItem>();
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                /*
-                HttpResponseMessage mailsResponse = await httpClient.GetAsync(WebsiteHelper.mailsUri);
-                HttpResponseMessage deliveriesResponse = await httpClient.GetAsync(Uri);
-
-                if (!mailsResponse.IsSuccessStatusCode)
-                {
-                    return Enumerable.Empty<SelectListItem>();
-                }
-                string mailsJsonResponse = await mailsResponse.Content.ReadAsStringAsync();
-                string deliveriesJsonResponse = await deliveriesResponse.Content.ReadAsStringAsync();
-                */
                 var mails = await GetAllMails(httpClient);
                 var deliveries = await GetAllDeliveries(httpClient);
 
@@ -111,12 +99,12 @@ namespace PostSystem.Website.Controllers
                 }
                 string officesJsonResponse = await officesResponse.Content.ReadAsStringAsync();
                 var offices = JsonConvert.DeserializeObject<IEnumerable<PostOfficeViewModel>>(officesJsonResponse);
-                return offices.Select(office => new SelectListItem($"{office.Office_City.City_Name}, {office.Address}", office.Id.ToString()));
+                return offices.Select(office => new SelectListItem($"{office.Office_City.City_Name} {office.Office_Post_Code}, {office.Address}", office.Id.ToString()));
             }
         }
 
         [HttpGet, ActionName("Index")]
-        public async Task<ActionResult> GetAll([FromQuery] string details)
+        public async Task<ActionResult> GetAll([FromQuery] int officeCode)
         {
             using (var client = new HttpClient())
             {
@@ -125,7 +113,7 @@ namespace PostSystem.Website.Controllers
                     return RedirectToAction(nameof(HomeController.Error), "Home");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage response = await client.GetAsync($"{Uri}?details={details}");
+                HttpResponseMessage response = await client.GetAsync($"{Uri}?officeCode={officeCode}");
 
                 if (!response.IsSuccessStatusCode)
                 {
